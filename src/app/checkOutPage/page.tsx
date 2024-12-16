@@ -15,10 +15,9 @@ const CheckoutPage = () => {
     })
   );
 
-  const totalAmount = updatedCart.reduce(
-    (acc: any, item: { totalPrice: any }) => acc + item.totalPrice,
-    0
-  );
+  const totalAmount = updatedCart
+    .reduce((acc: number, item: { totalPrice: number }) => acc + item.totalPrice, 0)
+    .toFixed(2); // Ensure proper formatting for currency
 
   return (
     <div className="bg-gray-50 min-h-screen overflow-x-hidden max-w-[800px] mx-auto">
@@ -53,12 +52,12 @@ const CheckoutPage = () => {
                   </td>
                 </tr>
               ) : (
-                addCart.map((item) => (
+                updatedCart.map((item: any) => (
                   <tr key={item.id}>
                     <td className="py-2 px-2 sm:py-4 sm:px-4">{item.name}</td>
-                    <td className="py-2 px-2 sm:py-4 sm:px-4">${item.price}</td>
+                    <td className="py-2 px-2 sm:py-4 sm:px-4">${item.price.toFixed(2)}</td>
                     <td className="py-2 px-2 sm:py-4 sm:px-4 text-center">{item.Quantity}</td>
-                    <td className="py-2 px-2 sm:py-4 sm:px-4">${item.price * item.Quantity}</td>
+                    <td className="py-2 px-2 sm:py-4 sm:px-4">${item.totalPrice.toFixed(2)}</td>
                   </tr>
                 ))
               )}
@@ -88,7 +87,11 @@ const CheckoutPage = () => {
 
           {/* Checkout Button */}
           <Link href="/orderplace">
-            <button onClick={() => setAddToCart([])}  className="w-full py-2 text-sm sm:text-base bg-[#2A254B] text-white font-semibold rounded-md hover:bg-[#4b437d] hover:text-[#2A254B]">
+            <button
+              onClick={() => setAddToCart([])}
+              disabled={addCart.length === 0}
+              className="w-full py-2 text-sm sm:text-base bg-[#2A254B] text-white font-semibold rounded-md hover:bg-[#4b437d] hover:text-[#fff] disabled:bg-gray-200 disabled:cursor-not-allowed"
+            >
               Complete Purchase
             </button>
           </Link>
